@@ -96,21 +96,29 @@ app.delete("/users/:id", (req, res) => {
   const id = req.params["id"];
   const result = deleteUserById(id);
   if (result) {
-    res.send("User deleted.");
+    res.status(204).send("User deleted.");
   } else {
     res.status(404).send("User not found.");
   }
 });
 
+const generateId = () => {
+  return Math.random().toString(36).slice(2);
+}
+
 const addUser = (user) => {
-  users["users_list"].push(user);
-  return user;
+  let parsedUser = {
+    ...user,
+    id: generateId()
+  }
+  users["users_list"].push(parsedUser);
+  return parsedUser;
 };
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.send();
+  const resultingUser = addUser(userToAdd);
+  res.status(201).send(resultingUser);
 });
 
 app.listen(port, () => {

@@ -23,7 +23,7 @@ function TableBody(props) {
         }</td>
         <td>
           <button onClick={
-            () => props.removeCharacter(index)
+            () => props.removeCharacter(row.id)
           }>
             Delete
           </button>
