@@ -1,9 +1,21 @@
 // src/MyApp.js
 import Table from "./Table";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from './Form';
 
+function fetchUsers() {
+  const promise = fetch("http://localhost:8000/users");
+  return promise;
+}
+
 function MyApp() {
+  useEffect(() => {
+    fetchUsers()
+      .then((res) => res.json())
+      .then((json) => setCharacters(json["users_list"]))
+      .catch((error) => { console.log(error); });
+  }, [] );
+
   const [characters, setCharacters] = useState([]);
 
   function removeOneCharacter (index) {
